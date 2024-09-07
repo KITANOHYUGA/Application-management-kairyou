@@ -291,10 +291,21 @@ return [
 
     'menu' => [
         [
-            'text' => '商品一覧',
+            'text' => 'アプリ情報一覧',
             'url'  => 'items',
             'icon' => 'fas fa-gamepad',
         ],
+        [
+            'text' => 'アプリ情報登録',
+            'url'  => 'items/add',
+            'icon' => 'fas fa-plus-circle',
+        ],
+        [
+            'text' => 'アプリ情報検索',
+            'url'  => 'items/search',
+            'icon' => 'fas fa-search',
+        ],
+
 
         // AdminLTEデフォルト
         /*

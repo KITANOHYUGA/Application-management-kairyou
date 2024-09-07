@@ -14,9 +14,24 @@ class Item extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'type',
-        'detail',
+        'price',
+        'stock',
+        'company_id',
+        'comment',
+        'icon'
     ];
+
+    // Productモデルがsalesテーブルとリレーション関係を結ぶためのメソッドです
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
+    }
+
+    // Productモデルがcompanysテーブルとリレーション関係を結ぶ為のメソッドです
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
