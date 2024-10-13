@@ -19,46 +19,50 @@
                     </div>
                 @endif
          <!-- 検索後に「アプリ情報一覧に戻る」リンクを表示 -->
-        @if(request('keyword') || request('upper') || request('lower') || request('download_upper') || request('download_lower'))
+        @if(request('keyword') || request('upper') || request('lower') || request('dawnload_upper') || request('dawnload_lower'))
                 <div>
-                    <a href="{{ url('/items') }}"  class="btn btn-primary mb-3">アプリ情報一覧に戻る</a>
+                    <a href="{{ url('/items/reset') }}"  class="btn btn-primary mb-3">アプリ情報一覧に戻る</a>
                 </div>
         @endif
 
             <form action="{{ url('items/search') }}" method="GET">
                 @csrf
                 <div class="form-group">
-                    <div class="form-row align-items-center">
+                    <div class="form-row align-items-center d-flex">
                         <div class="col-auto">
                             <label for="search_type">検索方法を選択:</label>
-                            <select id="search_type" name="search_type" class="form-control" style="width: 300px;">
+                            <select id="search_type" name="search_type" class="form-control mr-2" style="padding: 2px; width: 300px">
                                 <option value="" selected>選択してください</option>
                                 <option value="keyword" {{ request('search_type') == 'keyword' ? 'selected' : '' }}>キーワード検索</option>
-                                <option value="price_range" {{ request('search_type') == 'price_range' ? 'selected' : '' }}>価格範囲で検索</option>
-                                <option value="download_range" {{ request('search_type') == 'download_range' ? 'selected' : '' }}>ダウンロード数/万範囲で検索</option>
+                                <option value="price_range" {{ request('search_type') == 'price_range' ? 'selected' : '' }} style="width: 250px">価格範囲で検索</option>
+                                <option value="dawnload_range" {{ request('search_type') == 'dawnload_range' ? 'selected' : '' }} style="width: 250px">ダウンロード数/万範囲で検索</option>
                             </select>
                         </div>
 
                         <div class="col-auto" style="padding-top: 32px;">
                             <input type="submit" value="検索" class="btn btn-primary">
                         </div>
+
+                        <div class="col-auto ml-auto" style="padding-top: 32px;">
+                        <button type="button" id="clearSearchButton" class="btn btn-outline-secondary ml-1" style="display: none;">クリア</button>
+                        </div>
                     </div>
 
                     <!-- キーワード検索フィールド -->
                     <div id="keyword_search" style="display: none; margin-top: 5px; width: 300px;">
-                        <input placeholder="キーワードを入力" type="text" name="keyword" class="form-control mb-2">
+                        <input placeholder="キーワードを入力" type="text" name="keyword" class="form-control mb-2" value="{{ request('keyword') }}">
                     </div>
 
                     <!-- 価格範囲検索フィールド -->
                     <div id="price_range_search" style="display: none; margin-top: 5px; width: 300px;">
-                        <input placeholder="上限値を入力" type="text" name="upper" class="form-control mb-2">
-                        <input placeholder="下限値を入力" type="text" name="lower" class="form-control mb-2">
+                        <input placeholder="上限値を入力"  type="text" name="upper" class="form-control mb-2" value="{{ request('upper') }}">
+                        <input placeholder="下限値を入力"  type="text" name="lower" class="form-control mb-2" value="{{ request('lower') }}">
                     </div>
 
                     <!-- ダウンロード数/万範囲検索フィールド -->
-                    <div id="download_range_search" style="display: none; margin-top: 5px; width: 300px;">
-                        <input placeholder="上限ダウンロード数/万を入力" type="text" name="download_upper" class="form-control mb-2">
-                        <input placeholder="下限ダウンロード数/万を入力" type="text" name="download_lower" class="form-control mb-2">
+                    <div id="dawnload_range_search" style="display: none; margin-top: 5px; width: 300px;">
+                        <input placeholder="上限ダウンロード数/万を入力" type="text" name="dawnload_upper" class="form-control mb-2" value="{{ request('dawnload_upper') }}">
+                        <input placeholder="下限ダウンロード数/万を入力" type="text" name="dawnload_lower" class="form-control mb-2" value="{{ request('dawnload_lower') }}">
                     </div>
                 </div>
             </form>
@@ -72,7 +76,7 @@
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th>アプリ画像</th>
+                                <th style="visibility: hidden;">アプリ画像</th>
                                 <th>アプリ名</th>
                                 <th>会社名</th>
                                 <th>価格/円</th>
@@ -94,16 +98,14 @@
                                     <td class="align-middle">{{ $item->name }}</td>
                                     <td class="align-middle">{{ $item->company->company_name }}</td>
                                     <td class="align-middle">{{ $item->price == 0 ? '無料' : $item->price }}</td>
-                                    <td class="align-middle">{{ $item->stock }}</td>
+                                    <td class="align-middle">{{ $item->dawnload }}</td>
                                     <td class="align-middle">{{ $item->comment }}</td>
                                     <td class="align-middle">
-                                        @if(\Illuminate\Support\Facades\Auth::id() === $item->user_id)
+                                    @if(auth()->user()->auth == 1)
                                             <form action="{{ url('items/update/'.$item->id) }}" method="get">
                                                 @csrf
                                                  <button type="submit" class="btn btn-outline-primary btn-sm">編集</button>
                                              </form>
-                                        @else
-                                            編集できません
                                         @endif
                                     </td>
                                 </tr>
@@ -121,7 +123,7 @@
 <!-- アイテムのリスト表示 -->
 <!-- ページネーションリンク -->
 <div class="d-flex justify-content-center mt-4">
-    {{ $items->links('pagination::bootstrap-4') }}
+{{ $items->appends(request()->query())->links('pagination::bootstrap-4') }}
 </div>
     @endif
 @stop
@@ -132,69 +134,100 @@
 @section('js')
 <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // デフォルトの状態に戻す
-            let searchType = document.getElementById('search_type');
-            let keywordSearch = document.getElementById('keyword_search');
-            let priceRangeSearch = document.getElementById('price_range_search');
-            let downloadRangeSearch = document.getElementById('download_range_search');
-            
-            searchType.value = ''; // "選択してください" に戻す
-            keywordSearch.style.display = 'none';
-            priceRangeSearch.style.display = 'none';
-            downloadRangeSearch.style.display = 'none';
+    // デフォルトの状態に戻す
+    let searchType = document.getElementById('search_type');
+    let keywordSearch = document.getElementById('keyword_search');
+    let priceRangeSearch = document.getElementById('price_range_search');
+    let dawnloadRangeSearch = document.getElementById('dawnload_range_search');
+    let searchForm = document.getElementById('search_form');
+    let priceInput = document.getElementById('price');
+    let priceOptionRadios = document.getElementsByName('price_option');
 
-            // 検索タイプが選択された時に表示されるフィールドを切り替える
-            searchType.addEventListener('change', function() {
-                if (this.value === 'keyword') {
-                    keywordSearch.style.display = 'block';
-                    priceRangeSearch.style.display = 'none';
-                    downloadRangeSearch.style.display = 'none';
-                } else if (this.value === 'price_range') {
-                    keywordSearch.style.display = 'none';
-                    priceRangeSearch.style.display = 'block';
-                    downloadRangeSearch.style.display = 'none';
-                } else if (this.value === 'download_range') {
-                    keywordSearch.style.display = 'none';
-                    priceRangeSearch.style.display = 'none';
-                    downloadRangeSearch.style.display = 'block';
+    if (searchType) {
+        // 検索タイプが選択された時に表示されるフィールドを切り替える
+        searchType.addEventListener('change', function() {
+            if (this.value === 'keyword') {
+                keywordSearch.style.display = 'block';
+                priceRangeSearch.style.display = 'none';
+                dawnloadRangeSearch.style.display = 'none';
+            } else if (this.value === 'price_range') {
+                keywordSearch.style.display = 'none';
+                priceRangeSearch.style.display = 'block';
+                dawnloadRangeSearch.style.display = 'none';
+            } else if (this.value === 'dawnload_range') {
+                keywordSearch.style.display = 'none';
+                priceRangeSearch.style.display = 'none';
+                dawnloadRangeSearch.style.display = 'block';
+            } else {
+                keywordSearch.style.display = 'none';
+                priceRangeSearch.style.display = 'none';
+                dawnloadRangeSearch.style.display = 'none';
+            }
+        });
+
+        // 検索タイプがすでに選択されている場合は表示状態を初期化
+        const currentSearchType = searchType.value;
+        if (currentSearchType === 'keyword') {
+            keywordSearch.style.display = 'block';
+        } else if (currentSearchType === 'price_range') {
+            priceRangeSearch.style.display = 'block';
+        } else if (currentSearchType === 'dawnload_range') {
+            dawnloadRangeSearch.style.display = 'block';
+        }
+    }
+
+    // price_option ラジオボタンの処理
+    if (priceInput && priceOptionRadios.length > 0) {
+        function togglePriceInput() {
+            const selectedOption = document.querySelector('input[name="price_option"]:checked');
+            if (selectedOption && selectedOption.value === 'custom') {
+                priceInput.style.display = 'block';
+            } else {
+                priceInput.style.display = 'none';
+                priceInput.value = ''; // 無料が選択された場合、価格フィールドをリセット
+            }
+        }
+
+        for (const radio of priceOptionRadios) {
+            radio.addEventListener('change', togglePriceInput);
+        }
+
+        // 初期状態で表示/非表示を設定
+        togglePriceInput();
+    }
+});
+    // ページが完全に読み込まれた後に実行
+    document.addEventListener('DOMContentLoaded', function() {
+        // 検索タイプのセレクトボックス
+        const searchTypeSelect = document.getElementById('search_type');
+        // クリアボタン
+        const clearButton = document.getElementById('clearSearchButton');
+
+        // searchTypeSelectやclearButtonが存在するかを確認
+        if (searchTypeSelect && clearButton) {
+            // 検索タイプが変更されたときにクリアボタンを表示
+            searchTypeSelect.addEventListener('change', function() {
+                if (this.value !== '') {
+                    // 検索方法が選択されている場合にクリアボタンを表示
+                    clearButton.style.display = 'inline-block';
                 } else {
-                    keywordSearch.style.display = 'none';
-                    priceRangeSearch.style.display = 'none';
-                    downloadRangeSearch.style.display = 'none';
+                    // 何も選択されていない場合は非表示
+                    clearButton.style.display = 'none';
                 }
             });
 
-            // フォーム送信時に入力フィールドをリセット
-            document.getElementById('search_form').addEventListener('submit', function() {
-                searchType.value = '';  // "選択してください" に戻す
-                keywordSearch.querySelector('input[name="keyword"]').value = ''; // キーワード検索フィールドをリセット
-                priceRangeSearch.querySelector('input[name="upper"]').value = ''; // 上限値フィールドをリセット
-                priceRangeSearch.querySelector('input[name="lower"]').value = ''; // 下限値フィールドをリセット
-                downloadRangeSearch.querySelector('input[name="download_upper"]').value = ''; // 上限ダウンロード数/万フィールドをリセット
-                downloadRangeSearch.querySelector('input[name="download_lower"]').value = ''; // 下限ダウンロード数/万フィールドをリセット
+            // クリアボタンが押されたときの動作
+            clearButton.addEventListener('click', function() {
+                // フォームのリセット
+                document.querySelector('form').reset();
+
+                // 初期一覧ページにリダイレクト
+                window.location.href = "{{ url('/items/searchReset') }}";
             });
-        });
+        } else {
+            console.error('search_type または clearButton が見つかりません');
+        }
+    });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            var priceOptionRadios = document.getElementsByName('price_option');
-            var priceInput = document.getElementById('price');
-
-        function togglePriceInput() {
-            const selectedOption = document.querySelector('input[name="price_option"]:checked');
-                if (selectedOption && selectedOption.value === 'custom') {
-                     priceInput.style.display = 'block';
-                } else {
-                    priceInput.style.display = 'none';
-                    priceInput.value = ''; // 無料が選択された場合、価格フィールドをリセット
-             }
-     }
-
-    for (const radio of priceOptionRadios) {
-        radio.addEventListener('change', togglePriceInput);
-    }
-
-    // 初期状態で表示/非表示を設定
-    togglePriceInput();
-});
     </script>
 @stop

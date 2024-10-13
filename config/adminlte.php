@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => '商品管理',
+    'title' => 'アプリ管理',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -253,7 +253,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => '/',
+    'dashboard_url' => 'items',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -292,13 +292,15 @@ return [
     'menu' => [
         [
             'text' => 'アプリ情報一覧',
-            'url'  => 'items',
+            'url'  => 'items/reset',
             'icon' => 'fas fa-gamepad',
+            'onclick' => 'clearSelectionState();',  // ページ遷移時に選択状態をクリア
         ],
         [
             'text' => 'アプリ情報登録',
             'url'  => 'items/add',
             'icon' => 'fas fa-plus-circle',
+            'can'  => 'admin-only',  // 管理者のみ表示
         ],
         [
             'text' => 'アプリ情報検索',

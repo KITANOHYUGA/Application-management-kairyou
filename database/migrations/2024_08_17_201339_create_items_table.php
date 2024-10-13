@@ -16,8 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id')->nullable();;
             $table->bigInteger('user_id')->unsigned()->index();
             $table->string('name', 100);
+            $table->tinyInteger('type');
             $table->integer('price')->nullable();
-            $table->integer('stock');
+            $table->integer('dawnload');
             $table->text('comment')->nullable();
             $table->timestamps();
 

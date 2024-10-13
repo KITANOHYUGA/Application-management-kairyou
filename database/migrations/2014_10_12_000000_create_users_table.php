@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->tinyInteger('auth')->default(0); // 追加するカラム: 'auth'、デフォルトは0
         });
     }
 

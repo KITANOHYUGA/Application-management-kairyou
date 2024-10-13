@@ -29,10 +29,23 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-
-                    </ul>
-
+                <ul class="nav nav-pills nav-sidebar flex-column">
+                    <li class="nav-item">
+                        <a href="items/reset" class="nav-link" onclick="clearSelectionState();">
+                            <i class="fas fa-gamepad"></i> <span>アプリ情報一覧</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="items/add" class="nav-link">
+                            <i class="fas fa-plus-circle"></i> <span>アプリ情報登録</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="items/search" class="nav-link">
+                            <i class="fas fa-search"></i> <span>アプリ情報検索</span>
+                        </a>
+                    </li>
+                </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
