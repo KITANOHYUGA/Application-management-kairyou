@@ -164,7 +164,7 @@
 
     <form action="{{ url('/items/show-selected') }}" method="POST" id="showSelectedForm" class="ml-auto">
         @csrf
-        <button type="submit" id="showSelectedButton" class="btn btn-primary" style="display: none;">選択している項目を表示</button>
+        <button type="submit" id="showSelectedButton" class="btn btn-primary" style="display: none;">選択項目を表示</button>
     </form>
         </div>
     </div>
