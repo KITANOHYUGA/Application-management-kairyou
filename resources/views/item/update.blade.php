@@ -82,7 +82,7 @@
                         </div>
 
                         <div class="form-group">
-                                <label for="price">価格:</label>
+                                <label for="price">価格/円:</label>
                                     <div>
                                         <label><input type="radio" name="price_option" value="free" {{ old('price_option', $item->price == 0 ? 'free' : 'custom') == 'free' ? 'checked' : '' }}> 無料</label>
                                         <label><input type="radio" name="price_option" value="custom" {{ old('price_option', $item->price == 0 ? 'free' : 'custom') == 'custom' ? 'checked' : '' }}> 価格を変更</label>

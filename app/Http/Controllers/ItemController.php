@@ -174,26 +174,26 @@ public function searchReset(Request $request)
         $validated = $request->validate($rules, $messages);
 
         //  // アイコン画像の保存処理
-        //  $iconPath = null;
-        //  if ($request->hasFile('icon')) {
-        //      $iconPath = $request->file('icon')->store('icons', 'public'); // 'public/icons' ディレクトリに保存
-        //  }
+         $iconPath = null;
+         if ($request->hasFile('icon')) {
+             $iconPath = $request->file('icon')->store('icons', 'public'); // 'public/icons' ディレクトリに保存
+         }
 
             // アイコン画像の保存処理
-    $iconPath = null;
-    if ($request->hasFile('icon')) {
-        $file = $request->file('icon');
+    // $iconPath = null;
+    // if ($request->hasFile('icon')) {
+    //     $file = $request->file('icon');
         
-        // 画像のリサイズ（例: 横200px、縦200pxにリサイズ）
-        $resizedImage = Image::make($file)->resize(200, 200, function ($constraint) {
-            $constraint->aspectRatio();  // アスペクト比を維持
-            $constraint->upsize();       // 元画像より大きくしない
-        });
+    //     // 画像のリサイズ（例: 横200px、縦200pxにリサイズ）
+    //     $resizedImage = Image::make($file)->resize(200, 200, function ($constraint) {
+    //         $constraint->aspectRatio();  // アスペクト比を維持
+    //         $constraint->upsize();       // 元画像より大きくしない
+    //     });
 
-        // 画像を指定したディレクトリに保存
-        $iconPath = 'icons/' . time() . '_' . $file->getClientOriginalName();
-        $resizedImage->save(storage_path('app/public/' . $iconPath), 100);
-    }
+    //     // 画像を指定したディレクトリに保存
+    //     $iconPath = 'icons/' . time() . '_' . $file->getClientOriginalName();
+    //     $resizedImage->save(storage_path('app/public/' . $iconPath), 100);
+    // }
 
         // メーカーが存在するか確認または新規作成
         if ($request->company_id == 'new' || !$company = Company::find($request->company_id)) {

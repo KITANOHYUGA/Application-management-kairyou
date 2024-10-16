@@ -3,7 +3,7 @@
 @section('title', 'アプリ情報検索')
 
 @section('content_header')
-    <h1>アプリ情報一覧検索</h1>
+    <h1>アプリ情報検索</h1>
 @stop
 
 @section('content')

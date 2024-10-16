@@ -50,7 +50,7 @@
         <!-- カテゴリーを選択するドロップダウンメニュー -->
         <div id="type_group" class="form-group ml-auto">
             <select name="type" id="type" class="form-control" style="padding: 2px;">
-                <option value="" disabled selected>カテゴリーを絞る</option>
+                <option value="" disabled selected>カテゴリー別</option>
                 <option value="game" {{ request('type') == 'game' ? 'selected' : '' }}>ゲーム</option>
                 <option value="education" {{ request('type') == 'education' ? 'selected' : '' }}>教育</option>
                 <option value="utility" {{ request('type') == 'utility' ? 'selected' : '' }}>ユーティリティ</option>

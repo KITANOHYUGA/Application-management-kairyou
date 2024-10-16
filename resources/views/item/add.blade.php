@@ -22,7 +22,7 @@
             <a href="{{ route('items.reset') }}" class="btn btn-primary mb-3">アプリ情報一覧に戻る</a>
 
             <div class="card card-primary">
-                <form method="POST" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data" id="myForm">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
@@ -96,7 +96,7 @@
 
 
                         <div class="form-group">
-                            <label>価格:</label>
+                            <label>価格/円:</label>
                                 <div>
                                     <label><input type="radio" name="price_option" value="free" {{ old('price_option') == 'free' ? 'checked' : '' }}> 無料</label>
                                     <label><input type="radio" name="price_option" value="custom" {{ old('price_option') == 'custom' ? 'checked' : '' }}> 価格を入力</label>
@@ -126,7 +126,7 @@
                     </div>
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">登録</button>
+                        <button type="submit" class="btn btn-primary" id="submitButton">登録</button>
                     </div>
                 </form>
             </div>
@@ -173,6 +173,20 @@
             });
         }
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('myForm');
+    const submitButton = document.getElementById('submitButton');
+
+    form.addEventListener('submit', function (event) {
+        // ボタンを無効にして連打を防ぐ
+        submitButton.disabled = true;
+        
+        // ボタンのテキストを変えて処理中であることを示す（任意）
+        submitButton.textContent = '送信中...';
+    });
+});
+
 
 
     </script>
