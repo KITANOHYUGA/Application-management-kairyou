@@ -158,7 +158,7 @@
         @if(auth()->user()->auth == 1)
            <!-- 削除ボタン -->
             <div class="mb-3 d-flex">
-                <button type="submit" class="btn btn-danger" id="bulkDeleteBtn">削除</button>
+                <button type="submit" class="btn btn-danger" id="bulkDeleteBtn" style="display: none;">削除</button>
         @endif
         </form>
 
@@ -583,6 +583,13 @@ document.addEventListener('DOMContentLoaded', function () {
         return allSelectedItems;
     }
 
+    function clearAllStorageStates() {
+    Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('selected_items_page_') || key.startsWith('unchecked_items_page_') || key.startsWith('select_all_checked_page_')) {
+            localStorage.removeItem(key);
+        }
+    });
+}
     // 全選択ボタンのイベントハンドラ
     if (selectAllCheckbox) {  // ここで要素が存在するか確認
     selectAllCheckbox.addEventListener('change', function () {
@@ -597,9 +604,11 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.setItem(`selected_items_page_${currentPage}`, JSON.stringify(allItems));
             localStorage.removeItem(`unchecked_items_page_${currentPage}`); // 全選択時に除外リストをクリア
         } else {
-            saveUncheckedItems(); // 全選択解除時、除外アイテムを保存
+            // 必要に応じてページ遷移前やリセット時に呼び出す
+           clearAllStorageStates();
         }
         updateButtonStates();
+
     });
 }
 
