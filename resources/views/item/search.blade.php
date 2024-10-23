@@ -97,8 +97,8 @@
                                     </td>
                                     <td class="align-middle">{{ $item->name }}</td>
                                     <td class="align-middle">{{ $item->company->company_name }}</td>
-                                    <td class="align-middle">{{ $item->price == 0 ? '無料' : $item->price }}</td>
-                                    <td class="align-middle">{{ $item->dawnload }}</td>
+                                    <td class="align-middle">{{ $item->price == 0 ? '無料' : $item->price.'円' }}</td>
+                                    <td class="align-middle">{{ $item->dawnload }}万</td>
                                     <td class="align-middle">{{ $item->comment }}</td>
                                     <td class="align-middle">
                                     @if(auth()->user()->auth == 1)
