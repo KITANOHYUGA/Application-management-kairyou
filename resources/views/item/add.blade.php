@@ -99,17 +99,17 @@
                             <label>価格/円:</label>
                                 <div>
                                     <label><input type="radio" name="price_option" value="free" {{ old('price_option') == 'free' ? 'checked' : '' }}> 無料</label>
-                                    <label><input type="radio" name="price_option" value="custom" {{ old('price_option') == 'custom' ? 'checked' : '' }}> 価格を入力(※数字をご入力ください)</label>
+                                    <label><input type="radio" name="price_option" value="custom" {{ old('price_option') == 'custom' ? 'checked' : '' }}> 価格を入力</label>
                                 </div>
-                            <input type="number" name="price" id="price" class="form-control @error('price') is-invalid @enderror" style="display: {{ old('price_option') == 'custom' ? 'block' : 'none' }}" value="{{ old('price') }}">
+                            <input type="number" name="price" id="price" class="form-control @error('price') is-invalid @enderror" style="display: {{ old('price_option') == 'custom' ? 'block' : 'none' }}" value="{{ old('price') }} "placeholder="(※数字をご入力ください)">
                             @error('price')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="form-group">
-                            <label for="dawnload">ダウンロード数/万(※数字をご入力ください):</label>
-                            <input type="text" class="form-control @error('dawnload') is-invalid @enderror" id="dawnload" name="dawnload" placeholder="ダウンロード数/万" value="{{ old('dawnload') }}" required>
+                            <label for="dawnload">ダウンロード数/万:</label>
+                            <input type="text" class="form-control @error('dawnload') is-invalid @enderror" id="dawnload" name="dawnload" placeholder="ダウンロード数/万(※数字をご入力ください)" value="{{ old('dawnload') }}" required>
                             @error('dawnload')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
