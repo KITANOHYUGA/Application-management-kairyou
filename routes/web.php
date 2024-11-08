@@ -61,8 +61,19 @@ Route::prefix('items')->middleware('auth')->group(function () {
 
     // 削除処理
     Route::delete('/deleteItem/{id}', [App\Http\Controllers\ItemController::class, 'delete'])->name('items.delete');
-
     Route::match(['get', 'post'], '/show-selected', [App\Http\Controllers\ItemController::class, 'showSelected'])->name('items.showSelected');
 
 });
+});
+Route::middleware(IsAdmin::class)->group(function () {
+
+Route::get('/users/list', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+Route::get('/users/{id}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
+Route::put('/users/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('users.update');
+Route::delete('/users/{id}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
+Route::post('/users/bulk-delete', [App\Http\Controllers\UserController::class, 'bulkDelete'])->name('users.bulkDelete');
+// 検索処理
+Route::get('/users/search', [App\Http\Controllers\UserController::class, 'userSearch'])->name('users.search');
+// クリアボタン
+Route::post('/users/clear-selection', [App\Http\Controllers\UserController::class, 'clearSelection'])->name('users.clearSelection');
 });

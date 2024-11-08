@@ -109,7 +109,7 @@ class ItemController extends Controller
 
  public function reset(Request $request)
 {
-    // セッションのフィルターやソートの条件をクリア
+    // // セッションのフィルターやソートの条件をクリア
     $request->session()->forget(['filter', 'sort', 'order', 'selected_items', 'filter_type']);
     
     // 一覧画面にリダイレクト
@@ -492,8 +492,6 @@ public function deleteSelected(Request $request)
     if (!empty($keyword)) {
         $items->where(function($query) use ($keyword) {
             $query->where('name', 'LIKE', "%{$keyword}%")
-                  ->orWhere('price', 'LIKE', "%{$keyword}%")
-                  ->orWhere('dawnload', 'LIKE', "%{$keyword}%")
                   ->orWhere('comment', 'LIKE', "%{$keyword}%")
                   ->orWhereHas('company', function($query) use ($keyword) {
                       $query->where('company_name', 'LIKE', "%{$keyword}%");

@@ -14,9 +14,56 @@ return [
     |
     */
 
-    'title' => 'アプリ管理',
-    'title_prefix' => '',
-    'title_postfix' => '',
+    // 'title' => 'アプリ管理',
+    // 'title_prefix' => '',
+    // 'title_postfix' => '',
+
+    'menu' => [
+        [
+            'text' => 'アプリ管理',
+            'icon' => 'fas fa-boxes',
+            'url' => '#',  // リダイレクトを防ぐためURLを無効化
+            'submenu' => [
+                [
+                    'text' => 'アプリ情報一覧',
+                    'url'  => 'items/reset',
+                    'icon' => 'fas fa-gamepad',
+                ],
+                [
+                    'text' => 'アプリ情報登録',
+                    'url'  => 'items/add',
+                    'icon' => 'fas fa-plus-circle',
+                    'can'  => 'admin-only',  // 管理者のみ表示（必要であれば）
+                ],
+                [
+                    'text' => 'アプリ情報検索',
+                    'url'  => 'items/search',
+                    'icon' => 'fas fa-search',
+                ],
+            ],
+        ],
+        [
+            'text' => 'ユーザー管理',
+            'icon' => 'fas fa-users',
+            'url' => '#',  // リダイレクトを防ぐためURLを無効化
+            'can'  => 'admin-only',  // 管理者のみ表示（必要であれば）
+            'submenu' => [
+                [
+                    'text' => 'ユーザー情報一覧',
+                    'url'  => 'users/list',
+                    'icon' => 'fas fa-user-circle',
+                    'id'   => 'menu-user-list' // IDを追加してJavaScriptから参照できるように
+                ],
+        ],
+        ]
+    ],
+
+    'assets' => [
+    'css' => [
+        'css/custom.css', // カスタムCSSファイルを指定
+    ],
+],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -63,7 +110,7 @@ return [
     |
     */
 
-    'logo' => '<b>商品管理</b>',
+    'logo' => '選択項目',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -289,24 +336,24 @@ return [
     |
     */
 
-    'menu' => [
-        [
-            'text' => 'アプリ情報一覧',
-            'url'  => 'items/reset',
-            'icon' => 'fas fa-gamepad',
-            'onclick' => 'clearSelectionState();',  // ページ遷移時に選択状態をクリア
-        ],
-        [
-            'text' => 'アプリ情報登録',
-            'url'  => 'items/add',
-            'icon' => 'fas fa-plus-circle',
-            'can'  => 'admin-only',  // 管理者のみ表示
-        ],
-        [
-            'text' => 'アプリ情報検索',
-            'url'  => 'items/search',
-            'icon' => 'fas fa-search',
-        ],
+    // 'menu' => [
+    //     [
+    //         'text' => 'アプリ情報一覧',
+    //         'url'  => 'items/reset',
+    //         'icon' => 'fas fa-gamepad',
+    //         'onclick' => 'clearSelectionState();',  // ページ遷移時に選択状態をクリア
+    //     ],
+    //     [
+    //         'text' => 'アプリ情報登録',
+    //         'url'  => 'items/add',
+    //         'icon' => 'fas fa-plus-circle',
+    //         'can'  => 'admin-only',  // 管理者のみ表示
+    //     ],
+    //     [
+    //         'text' => 'アプリ情報検索',
+    //         'url'  => 'items/search',
+    //         'icon' => 'fas fa-search',
+    //     ],
 
 
         // AdminLTEデフォルト
@@ -408,7 +455,7 @@ return [
             'url'        => '#',
         ],
         */
-    ],
+    // ],
 
     /*
     |--------------------------------------------------------------------------

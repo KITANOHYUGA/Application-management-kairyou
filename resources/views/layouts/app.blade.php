@@ -29,9 +29,9 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                <ul class="nav nav-pills nav-sidebar flex-column" style="display: none;">
-                    <li class="nav-item">
-                        <a href="items/reset" class="nav-link" onclick="clearSelectionState();">
+                <ul class="nav nav-pills nav-sidebar flex-column submenu" style="display: none;">
+                    <li class="nav-item">   
+                        <a href="items/reset" class="nav-link">
                             <i class="fas fa-gamepad"></i> <span>アプリ情報一覧</span>
                         </a>
                     </li>
@@ -43,6 +43,19 @@
                     <li class="nav-item">
                         <a href="items/search" class="nav-link" style="display: none;">
                             <i class="fas fa-search"></i> <span>アプリ情報検索</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="users/list" class="nav-link" style="display: none;">
+                            <i class="fas fa-user-circle"></i> <span>ユーザー情報一覧</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="nav nav-pills nav-sidebar flex-column submenu" style="display: none;">
+                    <li class="nav-item">
+                        <a href="users/list" class="nav-link" style="display: none;">
+                            <i class="fas fa-user-circle"></i> <span>ユーザー情報一覧</span>
                         </a>
                     </li>
                 </ul>

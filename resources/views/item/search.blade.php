@@ -133,7 +133,7 @@
 
 @section('js')
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
     // デフォルトの状態に戻す
     let searchType = document.getElementById('search_type');
     let keywordSearch = document.getElementById('keyword_search');
@@ -146,6 +146,8 @@
     if (searchType) {
         // 検索タイプが選択された時に表示されるフィールドを切り替える
         searchType.addEventListener('change', function() {
+            // 検索タイプが変更されたときにすべてのフィールドをリセット
+            resetFields();
             if (this.value === 'keyword') {
                 keywordSearch.style.display = 'block';
                 priceRangeSearch.style.display = 'none';
@@ -173,6 +175,14 @@
             priceRangeSearch.style.display = 'block';
         } else if (currentSearchType === 'dawnload_range') {
             dawnloadRangeSearch.style.display = 'block';
+        }
+
+        // フィールドをリセットする関数
+        function resetFields() {
+        // 各検索フィールドの値をクリア
+        if (keywordSearch) keywordSearch.querySelector('input').value = '';
+        if (priceRangeSearch) priceRangeSearch.querySelector('input').value = '';
+        if (dawnloadRangeSearch) dawnloadRangeSearch.querySelector('input').value = '';
         }
     }
 
@@ -203,18 +213,12 @@
         // クリアボタン
         const clearButton = document.getElementById('clearSearchButton');
 
-        // searchTypeSelectやclearButtonが存在するかを確認
-        if (searchTypeSelect && clearButton) {
-            // 検索タイプが変更されたときにクリアボタンを表示
-            searchTypeSelect.addEventListener('change', function() {
-                if (this.value !== '') {
-                    // 検索方法が選択されている場合にクリアボタンを表示
-                    clearButton.style.display = 'inline-block';
-                } else {
-                    // 何も選択されていない場合は非表示
-                    clearButton.style.display = 'none';
-                }
-            });
+    // searchTypeSelectやclearButtonが存在するかを確認
+    if (searchTypeSelect && clearButton) {
+        // ページ読み込み時に検索タイプが選択されていればクリアボタンを表示
+        if (searchTypeSelect.value !== '') {
+            clearButton.style.display = 'inline-block';
+        }
 
             // クリアボタンが押されたときの動作
             clearButton.addEventListener('click', function() {

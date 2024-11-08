@@ -200,7 +200,7 @@ document.getElementById('sort').addEventListener('change', function() {
     sessionStorage.setItem('disableRestore', 'true'); // 状態復元を無効にするフラグを立てる
 
     // フォームを送信してリロード
-    document.getElementById('sortForm').submit();
+    // document.getElementById('sortForm').submit();
 });
 
 document.getElementById('sortForm').addEventListener('submit', function(event) {
@@ -306,41 +306,28 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-
-    // AdminLTEメニューの「アプリ情報一覧」リンクのクリックイベントリスナー
-    // const resetMenuLink = document.querySelector('a[href$="items/reset"]');
-    // if (resetMenuLink) {
-    //     resetMenuLink.addEventListener('click', function (event) {
-    //         // ページの遷移を一旦止める
-    //         event.preventDefault();
-
-    //         // クライアント側の選択状態をクリアする
-    //         clearAllSelectionStates(); // localStorage の選択状態を完全にクリア
-
-    //         console.log('After clearing state:');
-    //         console.log('localStorage:', localStorage);
-    //         console.log('sessionStorage:', sessionStorage);
-
-    //         clearCheckboxSelection();  // チェックボックスの選択状態をリセット
-    //         sessionStorage.removeItem('disableRestore'); // 状態復元を無効にするためのフラグをクリア
-
-    //         // 状態クリア後にリダイレクトを行う
-    //         setTimeout(() => {
-    //             // リンク先にリダイレクト
-    //             window.location.href = resetMenuLink.href;
-    //         }, 100); // 状態クリア処理を確実に終わらせるために少し遅延
-    //     });
-    // }
      // AdminLTEのメニューリンクを全て取得
      const menuLinks = document.querySelectorAll('.nav-link'); // AdminLTEで生成されるメニューリンクを取得
     
-    // デバッグ用：取得したリンクの確認
-    console.log('取得したメニューリンク:', menuLinks);
+    // // デバッグ用：取得したリンクの確認
+    // console.log('取得したメニューリンク:', menuLinks);
 
     // 各メニューリンクにクリックイベントを追加
     menuLinks.forEach(link => {
         link.addEventListener('click', function (event) {
-            event.preventDefault(); // ページ遷移を一旦止める
+            const href = link.getAttribute('href');
+            
+            // サブメニューがあるメインメニュー項目の href は '#'
+            if (href === '#') {
+                event.preventDefault(); // リダイレクトを防止
+                
+                // サブメニューの要素を取得
+                const submenu = link.nextElementSibling; 
+                if (submenu && submenu.classList.contains('submenu')) {
+                    submenu.classList.toggle('open'); // サブメニューの開閉を切り替え
+                }
+            }
+
             
             // クリックされたリンクをデバッグログに出力
             console.log('クリックされたリンク:', link);
@@ -350,18 +337,6 @@ document.addEventListener('DOMContentLoaded', function () {
             clearCheckboxSelection();   // チェックボックスの選択状態もリセット
             sessionStorage.removeItem('disableRestore'); // 状態復元を無効にするためのフラグをクリア
 
-            // リンクに `onclick` 属性が指定されていれば、それを実行
-            const onclickAttr = link.getAttribute('onclick');
-            if (onclickAttr) {
-                eval(onclickAttr);  // `onclick` 属性の内容を評価して実行
-            }
-
-            // 遅延を設けてページ遷移
-            setTimeout(() => {
-                const href = link.getAttribute('href');  // リンクのhref属性を取得
-                console.log('リダイレクト先のURL:', href);  // リダイレクト先を確認
-                window.location.href = href;  // ページ遷移
-            }, 100);  // 100ms遅延してからリダイレクト
         });
     });
 });
